@@ -26,7 +26,8 @@
             bindings = <&kp LS(K) &kp I &kp J &kp U &kp M &kp O &kp N8 &kp N0 &kp UNDER>;
             label = "PASS";
         };
-    }
+    };
+    
     keymap {
         compatible = "zmk,keymap";
 
