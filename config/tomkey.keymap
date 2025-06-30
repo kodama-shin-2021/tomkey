@@ -3,70 +3,93 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
 
+
+#define MOUSE 1
+#define SCROLL 5
+#define NUM 6
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 100
+
+
 / {
+    macros {
+        mouce_and_layer: mouce_and_layer {
+            compatible = "zmk,behavior-hold-tap";
+            label = "MOUCE_AND_LAYER";
+            bindings = <&mo>, <&mkp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+        };
+        text: pass {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LS(K) &kp I &kp J &kp U &kp M &kp O &kp N8 &kp N0 &kp UNDER>;
+            label = "PASS";
+        };
+    }
     keymap {
         compatible = "zmk,keymap";
 
         default_layer {
             bindings = <
-&kp Q      &kp W         &kp E             &kp R           &kp T                                                 &kp Y            &kp U     &kp I         &kp O    &kp P
-&kp A      &kp S         &kp D             &kp F           &kp G        &mo 6                 &kp BACKSLASH      &kp H            &kp J     &kp K         &kp L    &kp MINUS
-&kp Z      &kp X         &kp C             &kp V           &kp B        &kp LEFT_BRACKET      &kp RIGHT_BRACKET  &kp N            &kp M     &kp COMMA     &kp DOT  &lt 2 SLASH
-&kp LCTRL  &kp LEFT_ALT  &kp LEFT_COMMAND  &kp LEFT_SHIFT  &lt 4 SPACE  &kp LA(SPACE)         &kp ENTER          &lt 3 BACKSPACE                                   &lt 5 ESCAPE
+&kp Q             &kp W         &kp E      &kp R                    &kp T                                          &kp Y        &kp U  &kp I     &kp O                   &kp P
+&kp A             &kp S         &kp D      &kp F                    &kp G        &kp LG(SPACE)      &kp MINUS      &kp H        &kp J  &kp K     &lt 1 L                 &lt 3 COLON
+&kp Z             &kp X         &kp C      &kp V                    &kp B        &kp TAB            &kp BACKSPACE  &kp N        &kp M  &mkp MB1  &mouce_and_layer 5 MB2  &kp RSHIFT
+&kp LS(LEFT_ALT)  &kp LEFT_ALT  &kp LCTRL  &mt LEFT_WIN LANGUAGE_2  &lt 3 LANG2  &lt 2 SPACE        &lt 2 ENTER    &lt 4 LANG1                                           &kp LC(UP)
             >;
         };
 
         MOUSE {
             bindings = <
-&trans         &trans         &trans            &trans          &trans                                           &trans           &trans    &trans        &trans      &trans
-&trans         &trans         &trans            &trans          &trans       &trans           &trans             &trans           &mkp MB1  &mkp MB3      &mkp MB2    &trans
-&trans         &trans         &trans            &trans          &trans       &trans           &trans             &trans           &trans    &trans        &trans      &trans
-&kp LCTRL      &kp LEFT_ALT   &kp LEFT_COMMAND  &kp LEFT_SHIFT  &trans       &trans           &trans             &mo 3                                                &trans
-            >;
-        };
-
-        SCROLL {
-            bindings = <
-&kp ESCAPE  &trans  &trans  &trans  &trans                      &trans  &trans  &trans  &trans  &trans
-&trans      &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans  &trans  &trans  &trans
-&kp F12     &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans  &trans  &trans  &trans
-&kp F12     &trans  &trans  &trans  &trans  &trans      &trans  &trans                          &trans
-            >;
-        };
-
-        ARROW {
-            bindings = <
-&kp GRAVE  &kp LC(LS(TAB))         &kp LG(RIGHT)   &kp NUMBER_9     &kp NUMBER_0                                   &trans  &kp RC(LEFT_ARROW)  &kp UP_ARROW      &kp RC(RIGHT_ARROW)  &kp LG(P)
-&kp TAB    &kp LA(LG(LEFT_ARROW))  &kp LG(LEFT)    &kp LG(LA(RIGHT_ARROW))  &kp LEFT_BRACKET   &trans      &trans  &trans  &kp LEFT_ARROW      &kp DOWN_ARROW    &kp RIGHT_ARROW      &kp LG(K)
-&kp LCMD   &kp LG(LS(LEFT_ARROW))  &trans          &kp LG(LS(RIGHT_ARROW))  &kp RIGHT_BRACKET  &trans      &trans  &trans  &trans              &kp LC(UP_ARROW)  &trans               &kp LG(L)
-&trans     &trans                  &kp LEFT_SHIFT  &trans                   &trans             &trans      &trans  &trans                                                              &trans
+&trans  &trans  &trans        &trans         &trans                                        &kp LG(TILDE)           &kp LA(LG(LEFT))      &kp LA(LG(RIGHT))        &trans  &trans
+&trans  &trans  &kp LC(LEFT)  &kp LC(RIGHT)  &trans  &kp C_VOLUME_UP        &none          &mt RIGHT_ALT LG(PLUS)  &mkp MB1       &mouce_and_layer 5 MB2  &none          &lt 5 COLON
+&trans  &trans  &trans        &trans         &trans  &kp C_VOLUME_DOWN      &none          &kp LG(MINUS)           &kp LG(LEFT_BRACKET)  &lt 5 LG(RIGHT_BRACKET)  &none   &kp LEFT_ALT
+&trans  &trans  &trans        &trans         &trans  &trans                 &kp LG(LS(R))  &kp LG(W)                                                                      &trans
             >;
         };
 
         NUM {
             bindings = <
-&kp GRAVE                &kp NUMBER_7  &kp NUMBER_8  &kp LG(LS(NUMBER_4))  &kp PLUS                          &kp BACKSLASH    &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp SEMICOLON
-&kp SLASH                &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6          &kp ASTERISK  &trans      &trans  &kp EXCLAMATION  &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp SQT
-&mt LEFT_SHIFT NUMBER_0  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3          &kp PERIOD    &trans      &trans  &kp NUMBER_0     &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp EQUAL
-&trans                   &trans        &trans        &trans                &trans        &trans      &trans  &kp LEFT_SHIFT                                             &trans
+&kp ESC               &kp LS(LG(LEFT))            &kp LS(LG(UP_ARROW))  &kp LS(LG(RIGHT))      &kp LG(LS(RIGHT_BRACKET))                                               &kp PLUS   &kp N7        &kp N8        &kp N9        &kp COMMA
+&kp LA(LC(LG(UP)))    &kp LA(LC(LG(RIGHT)))       &kp LG(LS(LA(LEFT)))  &kp LS(LA(LG(RIGHT)))  &kp LS(LA(LG(L)))          &kp LG(LS(LA(L)))                 &kp SPACE  &kp MINUS  &kp N4        &kp N5        &kp NUMBER_6  &kp COLON
+&kp LC(LA(LG(LEFT)))  &kp LC(LA(LG(DOWN_ARROW)))  &trans                &trans                 &kp LS(LG(LA(L)))          &kp LS(LA(LG(LEFT_BRACKET)))      &trans     &kp SLASH  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp N0
+&trans                &kp LEFT_WIN                &trans                &trans                 &trans                     &trans                            &trans     &trans                                               &kp PERIOD
             >;
         };
 
-        FUNCTION {
+        ARROW {
             bindings = <
-&trans  &trans  &trans  &trans  &trans                       &kp F1  &kp F2  &kp F3  &kp F4  &kp F5
-&trans  &trans  &trans  &trans  &trans  &trans      &kp F13  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10
-&trans  &trans  &trans  &trans  &trans  &trans      &trans   &trans  &trans  &trans  &trans  &kp F11
-&trans  &trans  &trans  &trans  &trans  &trans      &trans   &trans                          &kp F12
+&kp ESCAPE        &none   &none       &none            &kp LS(LG(T))                                 &trans        &kp LA(LEFT)  &kp UP_ARROW  &kp LA(RIGHT)  &trans
+&kp LS(LG(A))     &none   &kp DELETE  &kp RIGHT_ARROW  &text          &kp C_VOLUME_UP        &trans  &kp LEFT_ALT  &kp LEFT      &kp DOWN      &kp RIGHT      &trans
+&kp LEFT_SHIFT    &none   &kp LG(C)   &kp LG(LS(V))    &kp LEFT       &kp C_VOLUME_DOWN      &trans  &kp DOWN      &kp LEFT_ALT  &kp END       &trans         &trans
+&kp LS(LEFT_ALT)  &trans  &trans      &trans           &trans         &trans                 &trans  &trans                                                   &trans
+            >;
+        };
+
+        SYMBOL {
+            bindings = <
+&kp PERCENT  &kp DOLLAR  &kp AMPERSAND    &kp SLASH  &kp BACKSLASH                         &kp SQT            &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp LEFT_BRACE  &kp RIGHT_BRACE
+&kp AT_SIGN  &kp HASH    &kp QUESTION     &kp MINUS  &kp EQUAL      &trans      &kp GRAVE  &kp DOUBLE_QUOTES  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp SEMI        &kp COLON
+&kp CARET    &kp TILDE   &kp EXCLAMATION  &kp PLUS   &kp ASTRK      &trans      &kp PIPE   &kp LT             &kp GREATER_THAN      &kp COMMA              &kp PERIOD      &kp UNDERSCORE
+&trans       &trans      &trans           &trans     &kp LANG1      &trans      &trans     &trans                                                                          &kp LS(LG(NUMBER_4))
+            >;
+        };
+
+        SCROLL {
+            bindings = <
+&trans  &trans  &trans        &trans         &trans                                        &kp LG(TILDE)           &kp LA(LG(LEFT))      &kp LA(LG(RIGHT))        &trans  &trans
+&trans  &trans  &kp LC(LEFT)  &kp LC(RIGHT)  &trans  &kp C_VOLUME_UP        &none          &mt RIGHT_ALT LG(PLUS)  &kp LA(LG(LEFT))      &kp LA(LG(RIGHT))        &trans  &kp LEFT_ALT
+&trans  &trans  &trans        &trans         &trans  &kp C_VOLUME_DOWN      &none          &kp LG(MINUS)           &kp LG(LEFT_BRACKET)  &lt 5 LG(RIGHT_BRACKET)  &none   &kp LEFT_ALT
+&trans  &trans  &trans        &trans         &trans  &trans                 &kp LG(LS(R))  &kp LG(W)                                                                      &trans
             >;
         };
 
         layer_6 {
             bindings = <
-&kp LG(Q)      &kp LC(W)  &trans     &trans     &trans                      &bt BT_PRV     &bt BT_NXT       &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
-&kp LG(LS(Z))  &trans     &kp LC(C)  &trans     &trans  &trans      &trans  &trans         &trans           &trans        &trans        &trans
-&kp LG(Z)      &kp LG(X)  &kp LG(C)  &kp LG(V)  &trans  &trans      &trans  &trans         &trans           &trans        &trans        &trans
-&trans         &trans     &trans     &trans     &trans  &trans      &trans  &trans                                                      &trans
+&trans  &trans        &trans        &trans        &trans                            &bt BT_SEL 0   &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
+&trans  &trans        &trans        &trans        &trans  &trans      &trans        &trans         &mkp MB1      &none         &trans        &trans
+&trans  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &trans  &trans      &bootloader   &trans         &mkp MB1      &trans        &none         &none
+&trans  &trans        &trans        &trans        &trans  &trans      &kp LC(LEFT)  &kp LC(RIGHT)                                            &none
             >;
         };
     };
